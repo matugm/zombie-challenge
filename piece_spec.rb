@@ -9,4 +9,8 @@ describe Piece do
     piece.move_left
     expect(piece.y).to eq initial_position - 1
   end
+
+  it 'implements to_s to display the piece symbol' do
+    expect(piece.to_s).to eq "Z"
+  end
 end

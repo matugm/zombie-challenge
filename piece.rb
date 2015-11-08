@@ -18,4 +18,15 @@ class Piece
   def move_down
     @x += 1
   end
+
+  def to_s
+    type_map = {
+      zombie: "Z",
+      human:  "H"
+    }
+
+    type_map[@type]
+  end
+
+  alias_method :display_type, :to_s
 end
