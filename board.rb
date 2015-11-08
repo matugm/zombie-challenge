@@ -25,8 +25,8 @@ class Board
   end
 
   def print_board
-    p @board
-    p @pieces
+    @board
+    @pieces
 
     print_header
     @board_size.times { |n| print_line(n) }

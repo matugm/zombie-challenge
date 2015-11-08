@@ -1,7 +1,7 @@
 require_relative 'board'
 require_relative 'piece'
 
-BOARD_SIZE = 4
+BOARD_SIZE = 3
 
 board = Board.new(BOARD_SIZE)
 
@@ -25,6 +25,13 @@ end
 # Initial display
 update_board(board)
 
+# direction = :left
+
+# until board.last_position?(x, y)
+#   change_direction if board.edge?(x, y)
+#   move_zombie
+# end
+
 (0...BOARD_SIZE-2).step(2) do |x|
   (BOARD_SIZE-1).times do |n|
     update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_left } }
@@ -33,17 +40,17 @@ update_board(board)
   update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_down } }
 
   (BOARD_SIZE-1).times do |n|
-      update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_right } }
+    update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_right } }
   end
 
-  # update_board(board) { board.move_piece_down(x+1, 10) }
+  update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_down } }
 end
 
 # Last line
 
-# 10.times do |n|
-#   update_board(board) { board.move_piece_left(9, 10-n) }
-# end
+(BOARD_SIZE-1).times do |n|
+  update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_left } }
+end
 
 # Idea: Have objects for every piece. Pieces keep track of their position on the board (x,y),
 # and know how to move themselves (left, right, down, up).
