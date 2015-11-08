@@ -1,13 +1,16 @@
 
 class Board
+  attr_reader :pieces, :board
+
   def initialize(board_size)
-    @board = Array.new(board_size) { [] }
     @board_size = board_size
 
     @pieces = []
   end
 
   def generate
+    reset_board
+
     @pieces.each { |piece| @board[piece.x][piece.y] = piece.display_type }
 
     @board
@@ -17,7 +20,14 @@ class Board
     @pieces << piece
   end
 
+  def reset_board
+    @board = Array.new(@board_size) { [] }
+  end
+
   def print_board
+    p @board
+    p @pieces
+
     print_header
     @board_size.times { |n| print_line(n) }
     print_header
@@ -36,6 +46,6 @@ class Board
   end
 
   def get_row(row)
-    @board[row].map(&:to_s).join
+    @board[row].map { |i| i.nil? ? " " : i }.join
   end
 end
