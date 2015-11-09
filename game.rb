@@ -1,12 +1,14 @@
 require_relative 'board'
 require_relative 'piece'
 
-BOARD_SIZE = 3
+BOARD_SIZE = 5
 
 board = Board.new(BOARD_SIZE)
 
+zombie = Piece.new(:active_zombie, 0, 2)
+
 board.add_piece Piece.new(:human, 0, 1)
-board.add_piece Piece.new(:zombie, 0, 2)
+board.add_piece zombie
 board.add_piece Piece.new(:human, 1, 1)
 board.add_piece Piece.new(:human, 2, 0)
 
@@ -19,41 +21,29 @@ def update_board(board)
   board.print_board
 
   $stdout.flush
-  sleep(1)
+  sleep(0.5)
 end
 
 # Initial display
 update_board(board)
 
-# direction = :left
+# Movement
+direction = "left"
 
-# until board.last_position?(x, y)
-#   change_direction if board.edge?(x, y)
-#   move_zombie
-# end
+loop do
+  if board.find_wall_left?(zombie)
+    break if board.last_row?(zombie)
 
-(0...BOARD_SIZE-2).step(2) do |x|
-  (BOARD_SIZE-1).times do |n|
-    update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_left } }
+    update_board(board) { zombie.move_down }
+    direction = "right"
   end
 
-  update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_down } }
+  if board.find_wall_right?(zombie)
+    break if board.last_row?(zombie)
 
-  (BOARD_SIZE-1).times do |n|
-    update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_right } }
+    update_board(board) { zombie.move_down }
+    direction = "left"
   end
 
-  update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_down } }
+  update_board(board) { zombie.send("move_#{direction}") }
 end
-
-# Last line
-
-(BOARD_SIZE-1).times do |n|
-  update_board(board) { board.pieces.select { |p| p.type == :zombie }.each { |p| p.move_left } }
-end
-
-# Idea: Have objects for every piece. Pieces keep track of their position on the board (x,y),
-# and know how to move themselves (left, right, down, up).
-#
-# A 2d array is recreated every turn from the objects. The 2d array is exclusively used for display,
-# and not for state.

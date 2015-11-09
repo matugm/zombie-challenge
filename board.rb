@@ -20,13 +20,24 @@ class Board
     @pieces << piece
   end
 
+  def find_wall_left?(piece)
+    piece.y <= 0
+  end
+
+  def find_wall_right?(piece)
+    piece.y >= @board_size - 1
+  end
+
+  def last_row?(piece)
+    piece.x == @board_size - 1
+  end
+
   def reset_board
     @board = Array.new(@board_size) { [] }
   end
 
   def print_board
     @board
-    @pieces
 
     print_header
     @board_size.times { |n| print_line(n) }
