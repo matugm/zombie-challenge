@@ -1,4 +1,4 @@
-require_relative 'piece'
+require 'piece'
 
 describe Piece do
   let(:piece) { Piece.new(:zombie) }

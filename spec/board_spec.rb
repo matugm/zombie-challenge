@@ -1,5 +1,5 @@
-require_relative 'piece'
-require_relative 'board'
+require 'piece'
+require 'board'
 
 describe Board do
   let(:board) { Board.new(3) }

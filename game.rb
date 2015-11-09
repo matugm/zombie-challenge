@@ -1,6 +1,6 @@
-require_relative 'board'
-require_relative 'piece'
-require_relative 'display'
+require_relative 'lib/board'
+require_relative 'lib/piece'
+require_relative 'lib/display'
 
 BOARD_SIZE = 8
 

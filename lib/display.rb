@@ -1,3 +1,4 @@
+
 class Display
   def initialize(board, zombie)
     @board  = board
