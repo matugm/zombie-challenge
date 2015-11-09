@@ -4,16 +4,15 @@ class Board
 
   def initialize(board_size)
     @board_size = board_size
+    @pieces     = []
 
-    @pieces = []
+    reset_board
   end
 
   def generate
     reset_board
 
     @pieces.each { |piece| @board[piece.x][piece.y] = piece }
-
-    @board
   end
 
   def add_piece(piece)

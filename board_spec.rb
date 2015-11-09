@@ -8,15 +8,18 @@ describe Board do
   it 'can generate an empty board' do
     result = [[],[],[]]
 
-    expect(board.generate).to eq result
+    board.generate
+
+    expect(board.board).to eq result
   end
 
   it 'can generate a board with one piece' do
-    result = [[nil, "H"],[],[]]
+    result = [[nil, piece],[],[]]
 
     board.add_piece(piece)
+    board.generate
 
-    expect(board.generate).to eq result
+    expect(board.board).to eq result
   end
 
   it 'can turn a row into a printable string' do

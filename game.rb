@@ -28,7 +28,6 @@ basic_map[:humans].each { |x, y| board.add_piece Piece.new(:human, x, y) }
 display = Display.new(board, zombie)
 
 # Initial display
-board.generate
 display.update
 
 # Initial direction
