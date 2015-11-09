@@ -1,20 +1,33 @@
 require_relative 'board'
 require_relative 'piece'
 
-BOARD_SIZE = 5
+BOARD_SIZE = 8
+
+# Trap Ctrl-C to avoid exception
+trap("SIGINT") { exit(0) }
 
 board = Board.new(BOARD_SIZE)
 
-zombie = Piece.new(:zombie, 0, 2)
+zombie = Piece.new(:zombie, 0, 5)
 
 board.add_piece zombie
-board.add_piece Piece.new(:human, 0, 1)
+board.add_piece Piece.new(:human, 0, 0)
+board.add_piece Piece.new(:human, 0, 3)
+
 board.add_piece Piece.new(:human, 1, 1)
+board.add_piece Piece.new(:human, 1, 2)
+
 board.add_piece Piece.new(:human, 2, 0)
+board.add_piece Piece.new(:human, 2, 6)
+
+board.add_piece Piece.new(:human, 3, 0)
+board.add_piece Piece.new(:human, 3, 1)
+board.add_piece Piece.new(:human, 3, 2)
 
 class Display
-  def initialize(board)
-    @board = board
+  def initialize(board, zombie)
+    @board  = board
+    @zombie = zombie
   end
 
   def update
@@ -22,6 +35,7 @@ class Display
 
     yield if block_given?
 
+    @board.updated_position(@zombie.x, @zombie.y)
     @board.generate
     @board.print_board
 
@@ -30,9 +44,10 @@ class Display
   end
 end
 
-display = Display.new(board)
+display = Display.new(board, zombie)
 
 # Initial display
+board.generate
 display.update
 
 # Movement

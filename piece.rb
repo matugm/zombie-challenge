@@ -1,6 +1,7 @@
 
 class Piece
-  attr_reader :type, :x, :y
+  attr_accessor :type
+  attr_reader :x, :y
 
   def initialize(type, x = 0, y = 0)
     @type  = type

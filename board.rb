@@ -11,13 +11,18 @@ class Board
   def generate
     reset_board
 
-    @pieces.each { |piece| @board[piece.x][piece.y] = piece.display_type }
+    @pieces.each { |piece| @board[piece.x][piece.y] = piece }
 
     @board
   end
 
   def add_piece(piece)
     @pieces << piece
+  end
+
+  # Assumption: moving piece is always a zombie
+  def updated_position(x, y)
+    @board[x][y].type = :zombie if @board[x][y]
   end
 
   def find_wall_left?(piece)
@@ -57,6 +62,6 @@ class Board
   end
 
   def get_row(row)
-    @board[row].map { |i| i.nil? ? " " : i }.join
+    @board[row].map { |i| i.nil? ? " " : i.display_type }.join
   end
 end
