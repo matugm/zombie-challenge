@@ -1,5 +1,6 @@
 require_relative 'board'
 require_relative 'piece'
+require_relative 'display'
 
 BOARD_SIZE = 8
 
@@ -23,35 +24,17 @@ basic_map = {
 
 basic_map[:humans].each { |x, y| board.add_piece Piece.new(:human, x, y) }
 
-class Display
-  def initialize(board, zombie)
-    @board  = board
-    @zombie = zombie
-  end
-
-  def update
-    system "clear"
-
-    yield if block_given?
-
-    @board.updated_position(@zombie.x, @zombie.y)
-    @board.generate
-    @board.print_board
-
-    $stdout.flush
-    sleep(0.5)
-  end
-end
-
+# Setup display
 display = Display.new(board, zombie)
 
 # Initial display
 board.generate
 display.update
 
-# Movement
+# Initial direction
 direction = "left"
 
+# Zombie movement
 loop do
   if board.find_wall_left?(zombie)
     break if board.last_row?(zombie)
