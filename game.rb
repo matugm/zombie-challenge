@@ -6,23 +6,22 @@ BOARD_SIZE = 8
 # Trap Ctrl-C to avoid exception
 trap("SIGINT") { exit(0) }
 
-board = Board.new(BOARD_SIZE)
-
+board  = Board.new(BOARD_SIZE)
 zombie = Piece.new(:zombie, 0, 5)
 
-board.add_piece zombie
-board.add_piece Piece.new(:human, 0, 0)
-board.add_piece Piece.new(:human, 0, 3)
+board.add_piece(zombie)
 
-board.add_piece Piece.new(:human, 1, 1)
-board.add_piece Piece.new(:human, 1, 2)
+# Setup initial board state
+basic_map = {
+  humans: [
+    [0,0], [0,3],
+    [1,1], [1,2],
+    [2,0], [2,6],
+    [3,0], [3,1], [3,2]
+  ]
+}
 
-board.add_piece Piece.new(:human, 2, 0)
-board.add_piece Piece.new(:human, 2, 6)
-
-board.add_piece Piece.new(:human, 3, 0)
-board.add_piece Piece.new(:human, 3, 1)
-board.add_piece Piece.new(:human, 3, 2)
+basic_map[:humans].each { |x, y| board.add_piece Piece.new(:human, x, y) }
 
 class Display
   def initialize(board, zombie)
