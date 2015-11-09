@@ -1,5 +1,6 @@
 require_relative 'lib/board'
 require_relative 'lib/piece'
+require_relative 'lib/loader'
 require_relative 'lib/display'
 
 BOARD_SIZE = 8
@@ -13,16 +14,7 @@ zombie = Piece.new(:zombie, 0, 5)
 board.add_piece(zombie)
 
 # Setup initial board state
-basic_map = {
-  humans: [
-    [0,0], [0,3],
-    [1,1], [1,2],
-    [2,0], [2,6],
-    [3,0], [3,1], [3,2]
-  ]
-}
-
-basic_map[:humans].each { |x, y| board.add_piece Piece.new(:human, x, y) }
+MapLoader.load("basic_map", board)
 
 # Setup display
 display = Display.new(board, zombie)

@@ -41,8 +41,6 @@ class Board
   end
 
   def print_board
-    @board
-
     print_header
     @board_size.times { |n| print_line(n) }
     print_header
