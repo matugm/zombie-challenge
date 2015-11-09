@@ -5,27 +5,35 @@ BOARD_SIZE = 5
 
 board = Board.new(BOARD_SIZE)
 
-zombie = Piece.new(:active_zombie, 0, 2)
+zombie = Piece.new(:zombie, 0, 2)
 
-board.add_piece Piece.new(:human, 0, 1)
 board.add_piece zombie
+board.add_piece Piece.new(:human, 0, 1)
 board.add_piece Piece.new(:human, 1, 1)
 board.add_piece Piece.new(:human, 2, 0)
 
-def update_board(board)
-  system "clear"
+class Display
+  def initialize(board)
+    @board = board
+  end
 
-  yield if block_given?
+  def update
+    system "clear"
 
-  board.generate
-  board.print_board
+    yield if block_given?
 
-  $stdout.flush
-  sleep(0.5)
+    @board.generate
+    @board.print_board
+
+    $stdout.flush
+    sleep(0.5)
+  end
 end
 
+display = Display.new(board)
+
 # Initial display
-update_board(board)
+display.update
 
 # Movement
 direction = "left"
@@ -34,16 +42,16 @@ loop do
   if board.find_wall_left?(zombie)
     break if board.last_row?(zombie)
 
-    update_board(board) { zombie.move_down }
     direction = "right"
+    display.update { zombie.move_down }
   end
 
   if board.find_wall_right?(zombie)
     break if board.last_row?(zombie)
 
-    update_board(board) { zombie.move_down }
     direction = "left"
+    display.update { zombie.move_down }
   end
 
-  update_board(board) { zombie.send("move_#{direction}") }
+  display.update { zombie.send("move_#{direction}") }
 end

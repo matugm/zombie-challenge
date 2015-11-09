@@ -22,7 +22,6 @@ class Piece
   def to_s
     type_map = {
       zombie: "Z",
-      active_zombie: "Z",
       human:  "H"
     }
 
