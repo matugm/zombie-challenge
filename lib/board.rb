@@ -47,11 +47,11 @@ class Board
   end
 
   def print_header
-    puts "#" * (@board_size + 2)
+    puts "#" * (@board_size + 4)
   end
 
   def print_line(row)
-    puts "#" + line_contents(row) + "#"
+    puts "# " + line_contents(row) + " #"
   end
 
   def line_contents(row)
