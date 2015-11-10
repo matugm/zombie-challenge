@@ -24,6 +24,10 @@ class Board
     @board[x][y].type = :zombie if @board[x][y]
   end
 
+  def position_used?(x, y)
+    @board[x][y].kind_of? Piece
+  end
+
   def find_wall_left?(piece)
     piece.y <= 0
   end

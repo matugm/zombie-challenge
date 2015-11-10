@@ -15,6 +15,6 @@ class Display
     @board.print_board
 
     $stdout.flush
-    sleep(0.5)
+    sleep(0.3)
   end
 end

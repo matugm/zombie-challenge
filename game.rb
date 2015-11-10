@@ -25,8 +25,46 @@ display.update
 # Initial direction
 direction = "left"
 
-# Zombie movement
+# Movement
 loop do
+  board.pieces.select { |p| p.type == :human }.each do |human|
+    directions       = %w(left right)
+    random_direction = directions.sample
+
+    if board.find_wall_left?(human)
+      next if board.last_row?(human)
+      next if board.position_used?(human.x+1, human.y)
+
+      random_direction = "right"
+      display.update { human.move_down }
+    end
+
+    if board.find_wall_right?(human)
+      next if board.last_row?(human)
+      next if board.position_used?(human.x+1, human.y)
+
+      random_direction = "left"
+      display.update { human.move_down }
+    end
+
+    # We need this to check if the new position
+    # is already filled.
+    #
+    # This allows us to avoid overlapping.
+    case random_direction
+    when "left"
+      new_x = human.x
+      new_y = human.y-1
+    when "right"
+      new_x = human.x
+      new_y = human.y+1
+    end
+
+    next if board.position_used?(new_x, new_y)
+
+    display.update { human.send("move_#{random_direction}") }
+  end
+
   if board.find_wall_left?(zombie)
     break if board.last_row?(zombie)
 
