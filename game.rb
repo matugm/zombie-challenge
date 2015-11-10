@@ -65,6 +65,8 @@ loop do
     display.update { human.send("move_#{random_direction}") }
   end
 
+  ## Zombie ##
+
   if board.find_wall_left?(zombie)
     break if board.last_row?(zombie)
 
