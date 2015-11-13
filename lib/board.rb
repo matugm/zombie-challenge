@@ -28,6 +28,11 @@ class Board
     @board[x][y].kind_of? Piece
   end
 
+  def find_wall(piece)
+    return "right" if find_wall_left?(piece)
+    return "left"  if find_wall_right?(piece)
+  end
+
   def find_wall_left?(piece)
     piece.y <= 0
   end

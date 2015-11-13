@@ -2,84 +2,67 @@ require_relative 'lib/board'
 require_relative 'lib/piece'
 require_relative 'lib/loader'
 require_relative 'lib/display'
+require_relative 'lib/human'
 
 BOARD_SIZE = 8
 
 # Trap Ctrl-C to avoid exception
 trap("SIGINT") { exit(0) }
 
-board  = Board.new(BOARD_SIZE)
-zombie = Piece.new(:zombie, 0, 5)
+class Game
+  attr_reader :board, :zombie, :display
 
-board.add_piece(zombie)
+  def initialize
+    @board  = Board.new(BOARD_SIZE)
+    @zombie = Piece.new(:zombie, 0, 5)
 
-# Setup initial board state
-MapLoader.load("basic_map", board)
+    board.add_piece(zombie)
 
-# Setup display
-display = Display.new(board, zombie)
+    @zombie_direction = "left"
 
-# Initial display
-display.update
+    # Setup initial board state
+    MapLoader.load("basic_map", board)
 
-# Initial direction
-direction = "left"
+    # Setup display
+    @display = Display.new(board, zombie)
 
-# Movement
-loop do
-  board.pieces.select { |p| p.type == :human }.each do |human|
-    directions       = %w(left right)
-    random_direction = directions.sample
-
-    if board.find_wall_left?(human)
-      next if board.last_row?(human)
-      next if board.position_used?(human.x+1, human.y)
-
-      random_direction = "right"
-      display.update { human.move_down }
-    end
-
-    if board.find_wall_right?(human)
-      next if board.last_row?(human)
-      next if board.position_used?(human.x+1, human.y)
-
-      random_direction = "left"
-      display.update { human.move_down }
-    end
-
-    # We need this to check if the new position
-    # is already filled.
-    #
-    # This allows us to avoid overlapping.
-    case random_direction
-    when "left"
-      new_x = human.x
-      new_y = human.y-1
-    when "right"
-      new_x = human.x
-      new_y = human.y+1
-    end
-
-    next if board.position_used?(new_x, new_y)
-
-    display.update { human.send("move_#{random_direction}") }
+    # Initial display
+    display.update
   end
 
-  ## Zombie ##
-
-  if board.find_wall_left?(zombie)
-    break if board.last_row?(zombie)
-
-    direction = "right"
-    display.update { zombie.move_down }
+  def main_loop
+    loop do
+      human_movement
+      zombie_movement
+    end
   end
 
-  if board.find_wall_right?(zombie)
-    break if board.last_row?(zombie)
-
-    direction = "left"
-    display.update { zombie.move_down }
+  def humans
+    board.pieces.select { |p| p.type == :human }
   end
 
-  display.update { zombie.send("move_#{direction}") }
+  def human_movement
+    humans.each { |human| HumanMovement.move(human, self) }
+  end
+
+  def zombie_movement
+    if board.find_wall_left?(zombie)
+      return if board.last_row?(zombie)
+
+      @zombie_direction = "right"
+      display.update { zombie.move_down }
+    end
+
+    if board.find_wall_right?(zombie)
+      return if board.last_row?(zombie)
+
+      @zombie_direction = "left"
+      display.update { zombie.move_down }
+    end
+
+    display.update { zombie.send("move_#{@zombie_direction}") }
+  end
 end
+
+game = Game.new
+game.main_loop
