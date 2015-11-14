@@ -13,7 +13,7 @@ module HumanMovement
 
     go_down_and_update_direction(new_direction) if new_direction && human_can_move?
 
-    return if new_direction && !human_can_move?
+    return if new_direction
     return if overlapping?
 
     @display.update { human.send("move_#{@random_direction}") }
@@ -29,8 +29,8 @@ module HumanMovement
   end
 
   def go_down_and_update_direction(direction)
-    @random_direction = direction
     @display.update { @human.move_down }
+    @display.update { @human.send("move_#{direction}") }
   end
 
   # Check if the new position is already in use.

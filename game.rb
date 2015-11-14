@@ -3,6 +3,7 @@ require_relative 'lib/piece'
 require_relative 'lib/loader'
 require_relative 'lib/display'
 require_relative 'lib/human'
+require_relative 'lib/zombie'
 
 BOARD_SIZE = 8
 
@@ -17,8 +18,6 @@ class Game
     @zombie = Piece.new(:zombie, 0, 5)
 
     board.add_piece(zombie)
-
-    @zombie_direction = "left"
 
     # Setup initial board state
     MapLoader.load("basic_map", board)
@@ -46,21 +45,7 @@ class Game
   end
 
   def zombie_movement
-    if board.find_wall_left?(zombie)
-      return if board.last_row?(zombie)
-
-      @zombie_direction = "right"
-      display.update { zombie.move_down }
-    end
-
-    if board.find_wall_right?(zombie)
-      return if board.last_row?(zombie)
-
-      @zombie_direction = "left"
-      display.update { zombie.move_down }
-    end
-
-    display.update { zombie.send("move_#{@zombie_direction}") }
+    ZombieMovement.move(zombie, self)
   end
 end
 

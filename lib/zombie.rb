@@ -1,29 +1,24 @@
 
-class ZombieMovement
-  attr_reader :zombie
+module ZombieMovement
+  extend self
 
-  def initialize(zombie, game)
+  def move(zombie, game)
     @board   = game.board
     @display = game.display
-    @zombie  = zombie
-    @direction = "left"
+
+    check_walls(zombie)
+
+    @display.update { zombie.send("move_#{zombie.direction}") }
   end
 
-  def move
-    if board.find_wall_left?(zombie)
-      return if board.last_row?(zombie)
+  def check_walls(zombie)
+    new_direction = @board.find_wall(zombie)
 
-      @direction = "right"
-      display.update { zombie.move_down }
+    exit if new_direction && @board.last_row?(zombie)
+
+    if new_direction
+      zombie.direction = new_direction
+      @display.update { zombie.move_down }
     end
-
-    if board.find_wall_right?(zombie)
-      return if board.last_row?(zombie)
-
-      @direction = "left"
-      display.update { zombie.move_down }
-    end
-
-    display.update { zombie.send("move_#{@direction}") }
   end
 end

@@ -1,11 +1,13 @@
 
 class Piece
-  attr_accessor :type
+  attr_accessor :type, :direction
   attr_reader :x, :y
 
-  def initialize(type, x = 0, y = 0)
+  def initialize(type, x = 0, y = 0, direction = "left")
     @type  = type
     @x, @y = x, y
+
+    @direction = direction
   end
 
   def move_left
