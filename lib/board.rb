@@ -23,9 +23,13 @@ class Board
     @board = Array.new(@board_size) { [] }
   end
 
-  # Assumption: moving piece is always a zombie
   def updated_position(x, y)
-    @board[x][y] = Zombie.new(x, y) if @board[x][y]
+    piece_index          = find_piece_index(x, y)
+    @pieces[piece_index] = Zombie.new(x, y) if piece_index
+  end
+
+  def find_piece_index(x, y)
+    @pieces.index { |p| p.type == :human && p.x == x && p.y == y }
   end
 
   def position_used?(x, y)

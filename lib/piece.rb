@@ -1,7 +1,7 @@
 
 class Piece
   attr_accessor :direction
-  attr_reader :x, :y, :type
+  attr_reader   :x, :y, :type
 
   def initialize(x = 0, y = 0, direction = "left")
     @x, @y     = x, y
@@ -18,6 +18,11 @@ class Piece
 
   def move_down
     @x += 1
+  end
+
+  def update_direction_and_move_down(new_direction)
+    @direction = new_direction
+    move_down
   end
 end
 

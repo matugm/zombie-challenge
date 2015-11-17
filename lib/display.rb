@@ -1,8 +1,7 @@
 
 class Display
   def initialize(board, zombie)
-    @board = board
-    @zombie = zombie
+    @board  = board
   end
 
   def update
@@ -10,7 +9,6 @@ class Display
 
     yield if block_given?
 
-    @board.updated_position(@zombie.x, @zombie.y)
     @board.generate
     @board.print_board
 

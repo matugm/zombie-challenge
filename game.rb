@@ -42,7 +42,7 @@ class Game
   end
 
   def zombie_movement
-    ZombieMovement.move(zombie, self)
+    ZombieMovement.move(self)
   end
 end
 
