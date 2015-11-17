@@ -15,7 +15,7 @@ class Game
 
   def initialize
     @board  = Board.new(BOARD_SIZE)
-    @zombie = Piece.new(:zombie, 0, 5)
+    @zombie = Zombie.new(0, 5)
 
     board.add_piece(zombie)
 

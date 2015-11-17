@@ -25,7 +25,7 @@ class Board
 
   # Assumption: moving piece is always a zombie
   def updated_position(x, y)
-    @board[x][y].type = :zombie if @board[x][y]
+    @board[x][y] = Zombie.new(x, y) if @board[x][y]
   end
 
   def position_used?(x, y)

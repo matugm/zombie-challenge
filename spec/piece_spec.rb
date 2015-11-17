@@ -1,7 +1,7 @@
 require 'piece'
 
 describe Piece do
-  let(:piece) { Piece.new(:zombie) }
+  let(:piece) { Human.new() }
 
   it 'can move one position to the left' do
     initial_position = piece.y
@@ -10,7 +10,7 @@ describe Piece do
     expect(piece.y).to eq initial_position - 1
   end
 
-  it 'implements to_s to display the piece symbol' do
-    expect(piece.to_s).to eq "Z"
+  it 'returns an appropiate symbol' do
+    expect(piece.display_type).to eq "H"
   end
 end

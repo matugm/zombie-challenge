@@ -3,7 +3,7 @@ require 'board'
 
 describe Board do
   let(:board) { Board.new(3) }
-  let(:piece) { Piece.new(:human, 0, 1) }
+  let(:piece) { Piece.new(0, 1) }
 
   it 'can generate an empty board' do
     result = [[],[],[]]
@@ -23,8 +23,8 @@ describe Board do
   end
 
   it 'can turn a row into a printable string' do
-    board.add_piece Piece.new(:human, 0, 1)
-    board.add_piece Piece.new(:zombie, 0, 2)
+    board.add_piece Human.new(0, 1)
+    board.add_piece Zombie.new(0, 2)
 
     board.generate
     expect(board.get_row(0)).to eq " HZ"

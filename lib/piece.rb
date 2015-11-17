@@ -1,12 +1,10 @@
 
 class Piece
-  attr_accessor :type, :direction
-  attr_reader :x, :y
+  attr_accessor :direction
+  attr_reader :x, :y, :type
 
-  def initialize(type, x = 0, y = 0, direction = "left")
-    @type  = type
-    @x, @y = x, y
-
+  def initialize(x = 0, y = 0, direction = "left")
+    @x, @y     = x, y
     @direction = direction
   end
 
@@ -21,15 +19,24 @@ class Piece
   def move_down
     @x += 1
   end
+end
 
-  def to_s
-    type_map = {
-      zombie: "Z",
-      human:  "H"
-    }
-
-    type_map[@type]
+class Human < Piece
+  def display_type
+    "H"
   end
 
-  alias_method :display_type, :to_s
+  def type
+    :human
+  end
+end
+
+class Zombie < Piece
+  def display_type
+    "Z"
+  end
+
+  def type
+    :zombie
+  end
 end
