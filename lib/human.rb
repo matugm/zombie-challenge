@@ -20,8 +20,7 @@ module HumanMovement
   end
 
   def set_random_direction
-    directions        = %w(left right)
-    @random_direction = directions.sample
+    @random_direction = %w(left right).sample
   end
 
   def human_can_move?
@@ -33,7 +32,6 @@ module HumanMovement
     @display.update { @human.send("move_#{direction}") }
   end
 
-  # Check if the new position is already in use.
   def overlapping?
     @board.position_used?(@human.x, calculate_new_y_position)
   end

@@ -22,11 +22,8 @@ class Game
     # Setup initial board state
     MapLoader.load("basic_map", board)
 
-    # Setup display
     @display = Display.new(board, zombie)
-
-    # Initial display
-    display.update
+    @display.update
   end
 
   def main_loop

@@ -19,6 +19,10 @@ class Board
     @pieces << piece
   end
 
+  def reset_board
+    @board = Array.new(@board_size) { [] }
+  end
+
   # Assumption: moving piece is always a zombie
   def updated_position(x, y)
     @board[x][y].type = :zombie if @board[x][y]
@@ -43,10 +47,6 @@ class Board
 
   def last_row?(piece)
     piece.x == @board_size - 1
-  end
-
-  def reset_board
-    @board = Array.new(@board_size) { [] }
   end
 
   def print_board

@@ -13,12 +13,11 @@ module ZombieMovement
 
   def check_walls(zombie)
     new_direction = @board.find_wall(zombie)
+    return unless new_direction
 
-    exit if new_direction && @board.last_row?(zombie)
+    exit if @board.last_row?(zombie)
 
-    if new_direction
-      zombie.direction = new_direction
-      @display.update { zombie.move_down }
-    end
+    zombie.direction = new_direction
+    @display.update { zombie.move_down }
   end
 end
