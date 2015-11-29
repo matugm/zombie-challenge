@@ -1,3 +1,4 @@
+require_relative 'board_printer'
 
 class Board
   attr_reader :pieces, :board
@@ -5,6 +6,8 @@ class Board
   def initialize(board_size)
     @board_size = board_size
     @pieces     = []
+
+    @board_printer = BoardPrinter.new(@board, @board_size)
 
     reset_board
   end
@@ -54,24 +57,7 @@ class Board
   end
 
   def print_board
-    print_header
-    @board_size.times { |n| print_line(n) }
-    print_header
-  end
-
-  def print_header
-    puts "#" * (@board_size + 4)
-  end
-
-  def print_line(row)
-    puts "# " + line_contents(row) + " #"
-  end
-
-  def line_contents(row)
-    get_row(row).ljust(@board_size)
-  end
-
-  def get_row(row)
-    @board[row].map { |i| i.nil? ? " " : i.display_type }.join
+    @board_printer.update_board(@board)
+    @board_printer.print_board
   end
 end
