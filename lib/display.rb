@@ -1,7 +1,7 @@
 
 class Display
-  def initialize(board, zombie)
-    @board  = board
+  def initialize(board)
+    @board = board
   end
 
   def update
