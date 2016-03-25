@@ -27,6 +27,7 @@ describe Board do
     board.add_piece Zombie.new(0, 2)
 
     board.generate
+
     expect(board.get_row(0)).to eq " HZ"
   end
 end
