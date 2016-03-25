@@ -25,6 +25,7 @@ module ZombieMovement
     new_direction = @wall.find_wall(@zombie)
     return unless new_direction
 
+    # Exit game if zombie has reached the last position
     exit if @wall.last_row?(@zombie)
 
     update { @zombie.update_direction_and_move_down(new_direction) }
