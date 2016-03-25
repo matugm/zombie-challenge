@@ -4,6 +4,7 @@ require_relative 'lib/loader'
 require_relative 'lib/display'
 require_relative 'lib/human'
 require_relative 'lib/zombie'
+require_relative 'lib/wall_finder'
 
 BOARD_SIZE = 8
 
@@ -11,7 +12,7 @@ BOARD_SIZE = 8
 trap("SIGINT") { exit(0) }
 
 class Game
-  attr_reader :board, :zombie, :display
+  attr_reader :board, :zombie, :display, :wall
 
   def initialize
     @board  = Board.new(BOARD_SIZE)
@@ -21,6 +22,8 @@ class Game
 
     # Setup initial board state
     MapLoader.load("basic_map", board)
+
+    @wall = WallFinder.new(board)
 
     @display = Display.new(board, zombie)
     @display.update

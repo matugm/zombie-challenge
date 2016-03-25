@@ -3,7 +3,7 @@ module HumanMovement
   extend self
 
   def move(human, game)
-    @board   = game.board
+    @wall    = game.wall
     @display = game.display
     @human   = human
 
@@ -26,11 +26,11 @@ module HumanMovement
   end
 
   def new_direction
-    @board.find_wall(@human)
+    @wall.find_wall(@human)
   end
 
   def human_can_move?
-    !(@board.last_row?(@human) || @board.position_used?(@human.x+1, @human.y))
+    !(@wall.last_row?(@human) || @wall.position_used?(@human.x+1, @human.y))
   end
 
   def go_down_and_update_direction
@@ -39,7 +39,7 @@ module HumanMovement
   end
 
   def overlapping?
-    @board.position_used?(@human.x, calculate_new_y_position)
+    @wall.position_used?(@human.x, calculate_new_y_position)
   end
 
   def calculate_new_y_position

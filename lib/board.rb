@@ -7,7 +7,7 @@ class Board
     @board_size = board_size
     @pieces     = []
 
-    @board_printer = BoardPrinter.new(@board, @board_size)
+    @board_printer = BoardPrinter.new(self)
 
     reset_board
   end
@@ -35,29 +35,19 @@ class Board
     @pieces.index { |p| p.type == :human && p.x == x && p.y == y }
   end
 
-  def position_used?(x, y)
-    @board[x][y].kind_of? Piece
+  def [](x)
+    @board[x]
   end
 
-  def find_wall(piece)
-    return "right" if find_wall_left?(piece)
-    return "left"  if find_wall_right?(piece)
-  end
-
-  def find_wall_left?(piece)
-    piece.y <= 0
-  end
-
-  def find_wall_right?(piece)
-    piece.y >= @board_size - 1
-  end
-
-  def last_row?(piece)
-    piece.x == @board_size - 1
+  def size
+    @board_size
   end
 
   def print_board
-    @board_printer.update_board(@board)
     @board_printer.print_board
+  end
+
+  def get_row(n)
+    @board_printer.get_row(n)
   end
 end
